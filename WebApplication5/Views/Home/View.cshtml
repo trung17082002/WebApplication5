@@ -1,0 +1,54 @@
+﻿@model WebApplication5.Models.BaiTap
+
+<div class="container mt-4">
+    <h1 class="text-center">Chi tiết bài tập</h1>
+    <a href="@Url.Action("Index", "Home")" class="btn btn-secondary mt-3">
+        <i class="fas fa-arrow-left"></i> Back
+    </a>
+    <div class="card shadow p-4">
+        <h3>Sinh viên: <strong>@Model.SinhVien.HoTen</strong></h3>
+
+        <h4>Tên bài tập:  <textarea name="Ten" class="form-control" rows="4">@Model.Ten</textarea></h4>
+        <p><strong>Ngày nộp:</strong> @Model.NgayNop.ToString("dd/MM/yyyy")</p>
+
+        @if (!string.IsNullOrEmpty(Model.FilePath))
+        {
+            <div class="mt-3">
+                <a href="@Model.FilePath" class="btn btn-primary" target="_blank">
+                    <i class="fas fa-download"></i> Tải xuống bài làm
+                </a>
+            </div>
+        }
+        else
+        {
+            <p class="text-danger mt-3"><i>Chưa có bài làm được tải lên</i></p>
+        }
+    </div>
+
+    <hr />
+
+    <div class="card shadow p-4 mt-4">
+        <h4 class="mb-4">Tải bài làm mới</h4>
+        <form asp-action="View" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="@Model.Id" />
+
+            <div class="mb-3">
+                <label for="uploadedFile" class="form-label">Chọn file bài làm:</label>
+                <input type="file" name="uploadedFile" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label for="nhanXet" class="form-label">Nhận xét của giáo viên:</label>
+                <textarea name="nhanXet" class="form-control" rows="4">@Model.NhanXet</textarea>
+            </div>
+
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-save"></i> Lưu nhận xét và cập nhật bài làm
+            </button>
+        </form>
+    </div>
+
+    <hr />
+
+  
+</div>

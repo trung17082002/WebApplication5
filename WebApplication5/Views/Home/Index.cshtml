@@ -1,0 +1,71 @@
+﻿@using PagedList.Core
+@using PagedList.Core.Mvc
+
+@model IPagedList<WebApplication5.Models.BaiTap>
+
+
+<h1 class="text-center my-4">Danh sách bài làm</h1>
+
+<!-- Nút Thêm Bài Tập -->
+<!--
+<div class="text-end">
+    <a href="@Url.Action("View", "Home", new { id = 0 })" class="btn btn-success mb-5">
+        <i class="fas fa-plus"></i> Thêm bài tập
+    </a>
+</div>
+
+-->
+
+<!-- Table Hiển thị Danh Sách Bài Tập -->
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Tên bài tập</th>
+                <th>Sinh viên</th>
+                <th>Ngày bắt đầu</th>
+                <th>Ngày kết thúc</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var baiTap in Model)
+            {
+                <tr>
+                    <td>@baiTap.Ten</td>
+                    <td>@baiTap.SinhVien?.HoTen</td>
+                    <td>@baiTap.NgayBatDau.ToString("dd/MM/yyyy")</td>
+                    <td>@baiTap.NgayKetThuc.ToString("dd/MM/yyyy")</td>
+                    <td>@(baiTap.HoanThanh ? "Hoàn thành" : "Chưa hoàn thành")</td>
+                    <td>
+                        <a href="@Url.Action("View", "Home", new { id = baiTap.Id })" class="btn btn-primary">
+                            Xem
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+ 
+</div>
+
+
+<!-- Hiển thị phân trang -->
+<nav>
+    <ul class="pagination">
+        <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+            <a class="page-link" href="@Url.Action("Index", new { page = Model.PageNumber - 1 })">Previous</a>
+        </li>
+        @for (int i = 1; i <= Model.PageCount; i++)
+        {
+            <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+            </li>
+        }
+        <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+            <a class="page-link" href="@Url.Action("Index", new { page = Model.PageNumber + 1 })">Next</a>
+        </li>
+    </ul>
+</nav>
